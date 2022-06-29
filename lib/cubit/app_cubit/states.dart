@@ -1,4 +1,4 @@
-class AppState{}
+abstract class AppState{}
 
 class AppInitState extends AppState{}
 

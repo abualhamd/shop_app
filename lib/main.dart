@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/cubit/bloc_observer.dart';
-import 'package:shop_app/cubit/cubit.dart';
-import 'package:shop_app/cubit/states.dart';
+import 'package:shop_app/cubit/app_cubit/cubit.dart';
+import 'package:shop_app/cubit/app_cubit/states.dart';
 import 'package:shop_app/screens/onboarding_screen.dart';
-import 'shared/themes.dart';
+import 'shared/themes_and_decorations.dart';
 
 void main() {
   BlocOverrides.runZoned(

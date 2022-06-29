@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:shop_app/cubit/cubit.dart';
+import 'package:shop_app/cubit/app_cubit/cubit.dart';
 
 class BuildBoardingItem extends StatelessWidget {
   final Size size;
   final int index;
-  // final String img;
-  // final String screenTitle;
-  // final String screenBody;
 
-  BuildBoardingItem({required this.size, required this.index});
+  const BuildBoardingItem({required this.size, required this.index});
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +32,7 @@ class BuildBoardingItem extends StatelessWidget {
         ),
         Text(
           cubit.onBoardingItems[index].screenTitle,
+          //TODO add Jannah font
           style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
         SizedBox(

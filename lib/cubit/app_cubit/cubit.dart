@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import '../screens/login_screen.dart';
+import '../../screens/login_screen.dart';
 import 'states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/models.dart';
+import 'package:shop_app/models/boarding_model.dart';
 
 class ShopCubit extends Cubit<AppState> {
   ShopCubit() : super(AppInitState());
@@ -27,7 +27,7 @@ class ShopCubit extends Cubit<AppState> {
 
   void navigateToLoginScreen(BuildContext context){
     Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()));
+        MaterialPageRoute(builder: (context) => LoginScreen()));
 
     emit(AppNavigateToLoginScreenState());
   }
