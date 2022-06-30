@@ -2,21 +2,21 @@ import 'package:dio/dio.dart';
 
 class DioHelper {
   static late Dio _dio;
-  static String baseURL = 'https://student.valuxapps.com/api/';
+  static const String _baseURL = 'https://student.valuxapps.com/api/';
 
   static init() {
     _dio = Dio(
-      BaseOptions(baseUrl: baseURL, receiveDataWhenStatusError: true, headers: {
+      BaseOptions(baseUrl: _baseURL, receiveDataWhenStatusError: true, headers: {
         'Content-Type': 'application/json',
       }),
     );
   }
 
-  static Future<Response<dynamic>> getDataOfCategory({
-    required Map<String, dynamic> query,
+  static Future<Response<dynamic>> getData({
     required String url,
-    String lang = 'ar',
+    Map<String, dynamic>? query,
     String? token,
+    String lang = 'en',
   }) async {
     _dio.options.headers = {
       "lang": lang,
@@ -32,7 +32,7 @@ class DioHelper {
     required String url,
     required Map<String, dynamic> data,
     Map<String, dynamic>? query,
-    String lang = 'ar',
+    String lang = 'en',
     String? token,
   }) async {
     _dio.options.headers = {

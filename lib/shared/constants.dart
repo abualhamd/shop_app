@@ -8,3 +8,8 @@ const MaterialColor kBlueMaterialColor = Colors.blue;
 
 const String onBoarding = 'onBoarding';
 const String token = 'token';
+
+//end points
+const String home = 'home';
+const String login = 'login';
+const String categories = 'categories';

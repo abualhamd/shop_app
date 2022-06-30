@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/helpers/dio_helper.dart';
 import 'package:shop_app/models/login_model.dart';
+import 'package:shop_app/shared/constants.dart';
 
 class LoginCubit extends Cubit<LoginState>{
   LoginCubit(): super(LoginInitState());
@@ -31,17 +32,13 @@ class LoginCubit extends Cubit<LoginState>{
  }
 
  void userLogin({required String email, required String password}){
-   DioHelper.init();
-
    emit(LoginLoadingState());
-   DioHelper.postData(url: 'login', data: {
+   DioHelper.postData(url: login, data: {
      'email': email,
      'password': password,
    }).then((value) {
       loginModel = LoginModel.fromJson(value.data);
-     // print(_loginModel!.status);
-     // print(_loginModel!.message);
-     // print(_loginModel!.data!.token);
+
      emit(LoginSuccessState(loginModel!));
    }).catchError((error){
 

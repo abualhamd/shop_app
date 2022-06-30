@@ -10,12 +10,14 @@ import 'package:shop_app/screens/shop_layout.dart';
 import 'screens/login_screen.dart';
 import 'shared/themes_and_decorations.dart';
 import 'shared/constants.dart';
+import 'helpers/dio_helper.dart';
 
 void main() {
   BlocOverrides.runZoned(
     () async {
       WidgetsFlutterBinding.ensureInitialized();
 
+      DioHelper.init();
       await CacheHelper.init();
       runApp(const MyApp());
     },
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
           create: (context) => AppCubit(),
         ),
         BlocProvider<ShopCubit>(
-          create: (context) => ShopCubit(),
+          create: (context) => ShopCubit()..loadProducts()..loadCategories(),
         ),
       ],
       // create: (BuildContext context) => ShopCubit(),
