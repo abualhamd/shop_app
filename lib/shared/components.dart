@@ -9,7 +9,7 @@ class BuildBoardingItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    ShopCubit cubit = ShopCubit.get(context);
+    AppCubit cubit = AppCubit.get(context);
 
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,

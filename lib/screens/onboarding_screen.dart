@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/shared/components.dart';
-import 'package:shop_app/shared/constants.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:shop_app/cubit/app_cubit/cubit.dart';
+import 'package:shop_app/shared/constants.dart';
+import '../helpers/cache_helper.dart';
 
 class OnBoardingScreen extends StatelessWidget {
   const OnBoardingScreen({Key? key}) : super(key: key);
@@ -11,7 +12,7 @@ class OnBoardingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     final PageController _pageController = PageController();
-    ShopCubit cubit = ShopCubit.get(context);
+    AppCubit cubit = AppCubit.get(context);
 
     return SafeArea(
       child: Scaffold(
@@ -23,7 +24,11 @@ class OnBoardingScreen extends StatelessWidget {
                 // style: TextStyle(color: kOrangeMaterialColor),
               ),
               onPressed: () {
-                cubit.navigateToLoginScreen(context);
+                CacheHelper.setBool(key: onBoarding, value: false).then((value) {
+                  // print('setting onBoarding $value');
+                  cubit.navigateToLoginScreen(context);
+                })
+                ;
               },
             ),
           ],
@@ -55,14 +60,17 @@ class OnBoardingScreen extends StatelessWidget {
                 controller: _pageController,
                 count: cubit.onBoardingItems.length,
                 effect: const ExpandingDotsEffect(
-                  // activeDotColor: kOrangeMaterialColor,
-                ),
+                    // activeDotColor: kOrangeMaterialColor,
+                    ),
               ),
               const Spacer(),
               FloatingActionButton(
                 onPressed: () {
                   if (cubit.isLast) {
-                    cubit.navigateToLoginScreen(context);
+                    CacheHelper.setBool(key: onBoarding, value: false)
+                        .then((value) {
+                      cubit.navigateToLoginScreen(context);
+                    });
                   } else {
                     _pageController.nextPage(
                         duration: const Duration(milliseconds: 850),

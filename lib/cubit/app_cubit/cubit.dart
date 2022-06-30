@@ -4,10 +4,10 @@ import 'states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/models/boarding_model.dart';
 
-class ShopCubit extends Cubit<AppState> {
-  ShopCubit() : super(AppInitState());
+class AppCubit extends Cubit<AppState> {
+  AppCubit() : super(AppInitState());
 
-  static ShopCubit get(context) => BlocProvider.of<ShopCubit>(context);
+  static AppCubit get(context) => BlocProvider.of<AppCubit>(context);
 
   bool isLast = false;
   List<BoardingModel> onBoardingItems = [
@@ -31,6 +31,4 @@ class ShopCubit extends Cubit<AppState> {
 
     emit(AppNavigateToLoginScreenState());
   }
-
-
 }

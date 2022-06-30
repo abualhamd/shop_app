@@ -8,7 +8,7 @@ final ThemeData themeLight = ThemeData(
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
       textStyle: MaterialStateProperty.all<TextStyle>(
-        TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+        const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
       ),
     ),
   ),
@@ -29,9 +29,9 @@ final ThemeData themeLight = ThemeData(
       statusBarIconBrightness: Brightness.light,
     ),
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
-    selectedItemColor: kOrangeColor,
+    selectedItemColor: Colors.blue,
     elevation: 20.0,
   ),
 );

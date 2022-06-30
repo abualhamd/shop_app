@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/cubit/signin_cubit/signin_states.dart';
-import 'package:shop_app/screens/home_screen.dart';
+import 'package:shop_app/cubit/login_cubit/login_states.dart';
+import 'package:shop_app/screens/shop_layout.dart';
 import 'package:shop_app/screens/signup_screen.dart';
 import 'package:shop_app/shared/themes_and_decorations.dart';
-import 'package:shop_app/cubit/signin_cubit/signin_cubit.dart';
+import 'package:shop_app/cubit/login_cubit/login_cubit.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import '../helpers/cache_helper.dart';
 
 class LoginScreen extends StatelessWidget {
   final TextEditingController emailController = TextEditingController();
@@ -15,15 +16,22 @@ class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => SignInCubit(),
-      child: BlocConsumer<SignInCubit, SignInState>(
+      create: (context) => LoginCubit(),
+      child: BlocConsumer<LoginCubit, LoginState>(
         listener: (context, state) {
-          if(state is SignInSuccessState){
-            if(state.loginModel.status){
-              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
-            }
-            else{
-              print(state.loginModel.message);
+          if (state is LoginSuccessState) {
+            if (state.loginModel.status) {
+              CacheHelper.setToken(value: state.loginModel.data!.token).then(
+                (value) {
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => ShopLayout(),
+                    ),
+                  );
+                },
+              );
+            } else {
               Fluttertoast.showToast(
                 msg: state.loginModel.message,
                 toastLength: Toast.LENGTH_LONG,
@@ -37,7 +45,7 @@ class LoginScreen extends StatelessWidget {
           }
         },
         builder: (context, state) {
-          SignInCubit cubit = SignInCubit.get(context);
+          LoginCubit cubit = LoginCubit.get(context);
           final Size size = MediaQuery.of(context).size;
 
           return Scaffold(
@@ -103,9 +111,10 @@ class LoginScreen extends StatelessWidget {
                             child: Column(
                               children: [
                                 ConditionalBuilder(
-                                  condition: state is! SignInLoadingState,
+                                  condition: state is! LoginLoadingState,
                                   builder: (context) => TextButton(
                                     onPressed: () {
+                                      //TODO regex to check email and password
                                       if (cubit.formKey.currentState!
                                           .validate()) {
                                         cubit.userLogin(
@@ -128,7 +137,6 @@ class LoginScreen extends StatelessWidget {
                                     const Text('don\'t have an account yet?'),
                                     TextButton(
                                       onPressed: () {
-                                        print('sign up pressed');
                                         Navigator.push(
                                             context,
                                             MaterialPageRoute(

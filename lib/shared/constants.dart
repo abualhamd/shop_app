@@ -5,3 +5,6 @@ final Color? kOrangeColor = Colors.orange[600];
 const MaterialColor kOrangeMaterialColor = Colors.orange;
 const double kHorizontalPaddingValue = 15.0;
 const MaterialColor kBlueMaterialColor = Colors.blue;
+
+const String onBoarding = 'onBoarding';
+const String token = 'token';

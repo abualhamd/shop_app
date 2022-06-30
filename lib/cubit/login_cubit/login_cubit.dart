@@ -1,16 +1,16 @@
-import 'package:shop_app/cubit/signin_cubit/signin_states.dart';
+import 'package:shop_app/cubit/login_cubit/login_states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:shop_app/helpers/dio_helper.dart';
 import 'package:shop_app/models/login_model.dart';
 
-class SignInCubit extends Cubit<SignInState>{
-  SignInCubit(): super(SignInInitState());
-  static SignInCubit get(BuildContext context) => BlocProvider.of(context);
+class LoginCubit extends Cubit<LoginState>{
+  LoginCubit(): super(LoginInitState());
+  static LoginCubit get(BuildContext context) => BlocProvider.of(context);
   final formKey = GlobalKey<FormState>();
   bool passwordVisibility = true;
   IconData visibilityIcon = Icons.visibility_outlined;
-  LoginModel? _loginModel;
+  LoginModel? loginModel;
 
   final validator = (value) {
     if (value == null || value.isEmpty) {
@@ -21,30 +21,31 @@ class SignInCubit extends Cubit<SignInState>{
 
  void togglePasswordVisibility(){
    passwordVisibility = !passwordVisibility;
-   if(!passwordVisibility)
+   if(!passwordVisibility) {
      visibilityIcon = Icons.visibility_off_outlined;
-   else
+   } else {
      visibilityIcon = Icons.visibility_outlined;
+   }
 
-   emit(SignInToggleVisibilityState());
+   emit(LoginToggleVisibilityState());
  }
 
  void userLogin({required String email, required String password}){
    DioHelper.init();
 
-   emit(SignInLoadingState());
+   emit(LoginLoadingState());
    DioHelper.postData(url: 'login', data: {
      'email': email,
      'password': password,
    }).then((value) {
-      _loginModel = LoginModel.fromJson(value.data);
+      loginModel = LoginModel.fromJson(value.data);
      // print(_loginModel!.status);
      // print(_loginModel!.message);
      // print(_loginModel!.data!.token);
-     emit(SignInSuccessState(_loginModel!));
+     emit(LoginSuccessState(loginModel!));
    }).catchError((error){
 
-     emit(SignInErrorState(error.toString()));
+     emit(LoginErrorState(error.toString()));
    });
  }
 

@@ -8,6 +8,7 @@ class LoginModel {
     message = json['message'];
     //TODO
     data = (json['data'] != null) ? UserData.fromJson(json['data']) : null;
+    // data = UserData.fromJson(json['data']);
   }
 }
 
