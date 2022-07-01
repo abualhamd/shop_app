@@ -6,9 +6,13 @@ class DioHelper {
 
   static init() {
     _dio = Dio(
-      BaseOptions(baseUrl: _baseURL, receiveDataWhenStatusError: true, headers: {
-        'Content-Type': 'application/json',
-      }),
+      BaseOptions(
+          baseUrl: _baseURL,
+          receiveDataWhenStatusError: true,
+          //TODO remove headers from here and move it to the below methods
+          headers: {
+            'Content-Type': 'application/json',
+          }),
     );
   }
 
@@ -23,9 +27,7 @@ class DioHelper {
       "Authorization": token,
     };
 
-    // Map<String, dynamic> queryParams = {};
-    // queryParams.addAll(query);
-    return await _dio.get(url, queryParameters: query);//Params
+    return await _dio.get(url, queryParameters: query); //Params
   }
 
   static Future<Response<dynamic>> postData({

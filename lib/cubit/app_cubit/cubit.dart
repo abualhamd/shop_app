@@ -9,8 +9,6 @@ class AppCubit extends Cubit<AppState> {
 
   static AppCubit get(context) => BlocProvider.of<AppCubit>(context);
 
-  //TODO bool showProducts = false;
-
   bool isLast = false;
   List<BoardingModel> onBoardingItems = [
     BoardingModel(

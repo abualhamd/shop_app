@@ -16,7 +16,6 @@ class ShopLayout extends StatelessWidget {
         ShopCubit cubit = ShopCubit.get(context);
         return SafeArea(
           child: Scaffold(
-            appBar: AppBar(),
             body: cubit.bottomScreens[cubit.bottomScreensIndex],
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: cubit.bottomScreensIndex,
