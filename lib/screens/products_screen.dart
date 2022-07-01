@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/cubit/shop_cubit/shop_states.dart';
+import 'package:shop_app/models/home_model.dart';
 import '../cubit/shop_cubit/shop_cubit.dart';
 
 //TODO remove the space in the place of the AppBar
@@ -37,6 +38,7 @@ class Products extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
         children: [
+          //slider images of banners
           Container(
             height: MediaQuery.of(context).size.height / 5,
             width: double.infinity,
@@ -52,8 +54,9 @@ class Products extends StatelessWidget {
             ),
           ),
           SizedBox(height: MediaQuery.of(context).size.height / 30),
+          //categories
           Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
+            padding: const EdgeInsets.symmetric(horizontal: 20),
             height: 80,
             width: double.infinity,
             child: ListView.separated(
@@ -67,6 +70,18 @@ class Products extends StatelessWidget {
                 width: MediaQuery.of(context).size.height / 40,
               ),
             ),
+          ),
+          SizedBox(height: MediaQuery.of(context).size.height / 30),
+          GridView.count(
+            physics: const NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            crossAxisCount: 2,
+            childAspectRatio: 1 / 1.55,
+            mainAxisSpacing: 5,
+            crossAxisSpacing: 5,
+            children: cubit.homeModel!.data!.products
+                .map((e) => GridItemBuilder(model: e))
+                .toList(),
           )
         ],
       ),
@@ -102,6 +117,10 @@ class CategoryItemBuilder extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      decoration: BoxDecoration(
+        //TODO fix the border radius
+        borderRadius: BorderRadius.circular(20),
+      ),
       height: 80,
       width: 120,
       child: Stack(
@@ -109,25 +128,103 @@ class CategoryItemBuilder extends StatelessWidget {
         children: [
           Container(
             decoration: BoxDecoration(
-                image: DecorationImage(
-                    image: NetworkImage(image), fit: BoxFit.fill)),
+              color: Colors.white,
+              image:
+                  DecorationImage(image: NetworkImage(image), fit: BoxFit.fill),
+            ),
           ),
           Container(
             color: Colors.black.withOpacity(0.8),
             height: 14,
             width: double.maxFinite,
-            child: Text(
-              name,
-              maxLines: 2,
-              style: TextStyle(
-                color: Colors.white,
-                fontSize: 12,
-                overflow: TextOverflow.ellipsis,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 5.0),
+              child: Text(
+                name,
+                maxLines: 2,
+                style: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 12,
+                  overflow: TextOverflow.ellipsis,
+                ),
               ),
             ),
           ),
         ],
       ),
+    );
+  }
+}
+
+class GridItemBuilder extends StatelessWidget {
+  final ProductModel model;
+
+  const GridItemBuilder({required this.model});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.topLeft,
+      children: [
+        Container(
+          color: Colors.white,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(model.image),
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Text(
+                    model.name,
+                    maxLines: 2,
+                    style: const TextStyle(
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ),
+                Row(
+                  children: [
+                    Text(
+                      model.price.round().toString(),
+                      style: const TextStyle(color: Colors.blue, fontSize: 12),
+                    ),
+                    SizedBox(
+                      width: 5,
+                    ),
+                    if (model.discount > 0)
+                      Text(
+                        model.oldPrice.round().toString(),
+                        style: const TextStyle(
+                            decoration: TextDecoration.lineThrough,
+                            color: Colors.grey,
+                            fontSize: 12),
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+        if (model.discount > 0)
+          const Padding(
+            //TODO pickup from here
+            padding: EdgeInsets.symmetric(horizontal: 5.0),
+            child: Text(
+              'Discount',
+              style: TextStyle(backgroundColor: Colors.red, color: Colors.white),
+            ),
+          ),
+      ],
     );
   }
 }
