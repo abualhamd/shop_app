@@ -13,7 +13,7 @@ class CategoriesScreen extends StatelessWidget {
         ShopCubit cubit = ShopCubit.get(context);
 
         return buildLayoutScreen(
-          condition: cubit.categoriesModel != null,
+          condition: (cubit.categoriesModel != null),
           widget: ListView.separated(
             itemBuilder: (context, index) =>
                 buildCategoryItem(cubit.categoriesModel!.data[index]),

@@ -19,3 +19,4 @@ const String home = 'home';
 const String login = 'login';
 const String categories = 'categories';
 const String favorites = 'favorites';
+const String profile = 'profile';

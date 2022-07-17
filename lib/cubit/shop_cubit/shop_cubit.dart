@@ -9,7 +9,7 @@ import 'package:shop_app/models/home_model.dart';
 import 'package:shop_app/screens/favorite_screen.dart';
 import 'package:shop_app/screens/products_screen.dart';
 import 'package:shop_app/screens/categories_screen.dart';
-import 'package:shop_app/screens/settings_screen.dart';
+import 'package:shop_app/screens/seetings_module/settings_screen.dart';
 import 'package:shop_app/shared/components.dart';
 import 'package:shop_app/shared/constants.dart';
 
@@ -38,7 +38,7 @@ class ShopCubit extends Cubit<ShopState> {
   void loadProducts() {
     emit(ShopProductsLoadingState());
     DioHelper.getData(
-            url: home, token: CacheHelper.getData(key: token).toString())
+            endPoint: home, token: CacheHelper.getData(key: token).toString())
         .then((value) {
       // print(value.data.toString());
       homeModel = HomeModel.fromJson(value.data);
@@ -53,7 +53,7 @@ class ShopCubit extends Cubit<ShopState> {
 
   void loadCategories() {
     emit(ShopCategoriesLoadingState());
-    DioHelper.getData(url: categories).then((value) {
+    DioHelper.getData(endPoint: categories).then((value) {
       categoriesModel = CategoriesModel.fromJson(value.data);
 
       emit(ShopCategoriesSuccessState());
@@ -65,7 +65,7 @@ class ShopCubit extends Cubit<ShopState> {
   void loadFavorites() {
     emit(ShopFavoritesLoadingState());
     DioHelper.getData(
-      url: favorites,
+      endPoint: favorites,
       token: CacheHelper.getData(key: token).toString(),
     ).then((value) {
       favoriteModel = FavoriteModel.fromJson(value.data);

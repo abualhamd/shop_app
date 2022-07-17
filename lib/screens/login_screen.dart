@@ -7,7 +7,6 @@ import 'package:shop_app/shared/components.dart';
 import 'package:shop_app/shared/themes_and_decorations.dart';
 import 'package:shop_app/cubit/login_cubit/login_cubit.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import '../helpers/cache_helper.dart';
 
 class LoginScreen extends StatelessWidget {

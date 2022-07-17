@@ -17,7 +17,7 @@ class DioHelper {
   }
 
   static Future<Response<dynamic>> getData({
-    required String url,
+    required String endPoint,
     Map<String, dynamic>? query,
     String? token,
     String lang = 'en',
@@ -27,7 +27,7 @@ class DioHelper {
       "Authorization": token,
     };
 
-    return await _dio.get(url, queryParameters: query); //Params
+    return await _dio.get(endPoint, queryParameters: query); //Params
   }
 
   static Future<Response<dynamic>> postData({
