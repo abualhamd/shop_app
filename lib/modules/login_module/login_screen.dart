@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../login_module/login_cubit/login_states.dart';
-import 'package:shop_app/modules/shop_layout.dart';
+import 'package:shop_app/modules/shop_module/shop_layout.dart';
 import 'package:shop_app/modules/register_module/register_screen.dart';
 import 'package:shop_app/shared/components.dart';
 import 'package:shop_app/shared/themes_and_decorations.dart';

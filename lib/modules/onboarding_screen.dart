@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/shared/components.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
-import 'package:shop_app/cubit/app_cubit/cubit.dart';
+import 'package:shop_app/app_cubit/cubit.dart';
 import 'package:shop_app/shared/constants.dart';
 import '../helpers/cache_helper.dart';
 
@@ -21,11 +21,9 @@ class OnBoardingScreen extends StatelessWidget {
             TextButton(
               child: const Text(
                 'Skip',
-                // style: TextStyle(color: kOrangeMaterialColor),
               ),
               onPressed: () {
                 CacheHelper.setBool(key: onBoarding, value: false).then((value) {
-                  // print('setting onBoarding $value');
                   cubit.navigateToLoginScreen(context);
                 })
                 ;

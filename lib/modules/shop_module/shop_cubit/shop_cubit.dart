@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/cubit/shop_cubit/shop_states.dart';
 import 'package:shop_app/helpers/cache_helper.dart';
 import 'package:shop_app/helpers/dio_helper.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/favorite_model.dart';
 import 'package:shop_app/models/home_model.dart';
-import 'package:shop_app/modules/favorite_screen.dart';
-import 'package:shop_app/modules/products_screen.dart';
-import 'package:shop_app/modules/categories_screen.dart';
+import 'package:shop_app/modules/shop_module/favorite_screen.dart';
+import 'package:shop_app/modules/shop_module/products_screen.dart';
+import 'package:shop_app/modules/shop_module/categories_screen.dart';
 import 'package:shop_app/modules/settings_module/settings_screen.dart';
 import 'package:shop_app/shared/components.dart';
 import 'package:shop_app/shared/constants.dart';
+import 'shop_states.dart';
 
 class ShopCubit extends Cubit<ShopState> {
   ShopCubit() : super(ShopInitState());
@@ -21,9 +21,9 @@ class ShopCubit extends Cubit<ShopState> {
   int bottomScreensIndex = 0;
   List bottomScreens = [
     ProductsScreen(),
-    CategoriesScreen(),
-    FavoriteScreen(),
-    SettingsScreen(),
+    const CategoriesScreen(),
+    const FavoriteScreen(),
+    const SettingsScreen(),
   ];
   HomeModel? homeModel;
   CategoriesModel? categoriesModel;

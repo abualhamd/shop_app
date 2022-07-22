@@ -4,10 +4,10 @@ import 'package:shop_app/helpers/dio_helper.dart';
 import 'package:shop_app/models/profile_model.dart';
 import 'package:shop_app/modules/settings_module/profile_cubit/profile_states.dart';
 import 'package:shop_app/shared/components.dart';
-import '../../../cubit/shop_cubit/shop_cubit.dart';
 import '../../../shared/constants.dart';
 import 'package:flutter/material.dart';
 import '../../login_module/login_screen.dart';
+import '../../shop_module/shop_cubit/shop_cubit.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitState());

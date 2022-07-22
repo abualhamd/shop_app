@@ -2,19 +2,19 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shop_app/cubit/app_cubit/cubit.dart';
+import 'package:shop_app/app_cubit/cubit.dart';
 import 'package:shop_app/shared/constants.dart';
-import '../cubit/shop_cubit/shop_cubit.dart';
 import '../models/categories_model.dart';
 import '../models/home_model.dart';
 import '../modules/search_module/cubit/search_cubit.dart';
+import '../modules/shop_module/shop_cubit/shop_cubit.dart';
 
 //TODO turn the class into a function
 class BuildBoardingItem extends StatelessWidget {
   final Size size;
   final int index;
 
-  const BuildBoardingItem({required this.size, required this.index});
+  const BuildBoardingItem({Key? key, required this.size, required this.index}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -56,13 +56,13 @@ class BuildBoardingItem extends StatelessWidget {
   }
 }
 
-void showToast({required String message}) async {
+void showToast({required String message, Color color = Colors.red}) async {
   await Fluttertoast.showToast(
     msg: message,
     toastLength: Toast.LENGTH_LONG,
     gravity: ToastGravity.BOTTOM,
     timeInSecForIosWeb: 5,
-    backgroundColor: Colors.red,
+    backgroundColor: color,
     textColor: Colors.white,
     fontSize: 16.0,
   );
@@ -87,6 +87,8 @@ Widget buildLayoutScreen({required bool condition, required Widget widget}) {
 
 //TODO change into a function
 class BuildProductsScreen extends StatelessWidget {
+  const BuildProductsScreen({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     ShopCubit cubit = ShopCubit.get(context);

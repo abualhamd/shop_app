@@ -12,7 +12,12 @@ class SettingsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ProfileCubit, ProfileState>(
-      listener: (context, state) {},
+      listener: (context, state) {
+        if (state is ProfileUpdateSuccessState) {
+          showToast(
+              message: 'Profile updated successfully', color: Colors.green);
+        }
+      },
       builder: (context, state) {
         ProfileCubit cubit = ProfileCubit.get(context);
         final formKey = GlobalKey<FormState>();
@@ -32,16 +37,25 @@ class SettingsScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        if(state is ProfileUpdateLoadingState)
+                        if (state is ProfileUpdateLoadingState)
                           const LinearProgressIndicator(),
                         // const SizedBox(height: 20,),
 
-                        myTextFormField(controller: cubit.nameController, label: 'Name', icon: Icons.person_outlined),
-                        myTextFormField(controller: cubit.emailController, label: 'Email', icon: Icons.email_outlined),
-                        myTextFormField(controller: cubit.phoneController, label: 'Phone', icon: Icons.phone_outlined),
+                        myTextFormField(
+                            controller: cubit.nameController,
+                            label: 'Name',
+                            icon: Icons.person_outlined),
+                        myTextFormField(
+                            controller: cubit.emailController,
+                            label: 'Email',
+                            icon: Icons.email_outlined),
+                        myTextFormField(
+                            controller: cubit.phoneController,
+                            label: 'Phone',
+                            icon: Icons.phone_outlined),
                         blueButton(
                             onPressed: () {
-                              if(formKey.currentState!.validate()) {
+                              if (formKey.currentState!.validate()) {
                                 cubit.profileUpdateP();
                               }
                             },

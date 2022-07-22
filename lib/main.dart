@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/cubit/bloc_observer.dart';
-import 'package:shop_app/cubit/app_cubit/cubit.dart';
-import 'package:shop_app/cubit/app_cubit/states.dart';
-import 'package:shop_app/cubit/shop_cubit/shop_cubit.dart';
+import 'package:shop_app/app_cubit/bloc_observer.dart';
+import 'package:shop_app/app_cubit/cubit.dart';
+import 'package:shop_app/app_cubit/states.dart';
 import 'package:shop_app/helpers/cache_helper.dart';
 import 'package:shop_app/modules/onboarding_screen.dart';
-import 'package:shop_app/modules/shop_layout.dart';
+import 'package:shop_app/modules/shop_module/shop_layout.dart';
 import 'modules/login_module/login_screen.dart';
 import 'modules/settings_module/profile_cubit/profile_cubit.dart';
+import 'modules/shop_module/shop_cubit/shop_cubit.dart';
 import 'shared/themes_and_decorations.dart';
 import 'shared/constants.dart';
 import 'helpers/dio_helper.dart';
@@ -59,8 +59,8 @@ class MyApp extends StatelessWidget {
             theme: themeLight,
             home: (CacheHelper.getData(key: onBoarding) == false)
                 ? (CacheHelper.getData(key: token) != null)
-                    ? ShopLayout()
-                    : LoginScreen()
+                    ? const ShopLayout()
+                    : const LoginScreen()
                 : const OnBoardingScreen(),
           );
         },
