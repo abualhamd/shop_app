@@ -2,10 +2,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/helpers/cache_helper.dart';
 import 'package:shop_app/helpers/dio_helper.dart';
 import 'package:shop_app/models/profile_model.dart';
-import 'package:shop_app/screens/seetings_module/profile_cubit/states.dart';
+import 'package:shop_app/modules/settings_module/profile_cubit/profile_states.dart';
 import 'package:shop_app/shared/components.dart';
+import '../../../cubit/shop_cubit/shop_cubit.dart';
 import '../../../shared/constants.dart';
 import 'package:flutter/material.dart';
+import '../../login_module/login_screen.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   ProfileCubit() : super(ProfileInitState());
@@ -38,4 +40,32 @@ class ProfileCubit extends Cubit<ProfileState> {
       emit(ProfileErrorState());
     });
   }
+
+  void logout(BuildContext context){
+    CacheHelper.clearToken();
+    ShopCubit.get(context).bottomScreensIndex = 0;
+    Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+            builder: (context) => LoginScreen()));
+  }
+
+  void profileUpdateP(){
+    emit(ProfileUpdateLoadingState());
+    
+    DioHelper.putData(endPoint: updateProfile, data: {
+      'name': nameController.text,
+      'email': emailController.text,
+      'phone': phoneController.text
+    },
+      token: CacheHelper.getData(key: token).toString()
+    ).then((value) {
+
+      emit(ProfileUpdateSuccessState());
+    }).catchError((error){
+
+      emit(ProfileUpdateErrorState());
+    });
+  }
+
 }

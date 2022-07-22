@@ -20,4 +20,9 @@ class CacheHelper{
     return _cacheHelper.get(key);
   }
 
+  static void clearToken(){
+    _cacheHelper.remove(token).then((value) {
+    });
+  }
+
 }

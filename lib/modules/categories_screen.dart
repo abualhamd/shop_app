@@ -5,6 +5,8 @@ import 'package:shop_app/cubit/shop_cubit/shop_states.dart';
 import 'package:shop_app/shared/components.dart';
 
 class CategoriesScreen extends StatelessWidget {
+  const CategoriesScreen({Key? key}) : super(key: key);
+  //TODO add category details screen
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ShopCubit, ShopState>(

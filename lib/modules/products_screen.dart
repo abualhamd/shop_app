@@ -7,6 +7,7 @@ import 'package:shop_app/shared/components.dart';
 class ProductsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    //TODO add product details screen
     return BlocConsumer<ShopCubit, ShopState>(
       listener: (context, state) {},
       builder: (context, state){

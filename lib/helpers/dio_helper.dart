@@ -31,7 +31,7 @@ class DioHelper {
   }
 
   static Future<Response<dynamic>> postData({
-    required String url,
+    required String endPoint,
     required Map<String, dynamic> data,
     Map<String, dynamic>? query,
     String lang = 'en',
@@ -41,6 +41,21 @@ class DioHelper {
       'lang': lang,
       'Authorization': token,
     };
-    return await _dio.post(url, data: data, queryParameters: query);
+    return await _dio.post(endPoint, data: data, queryParameters: query);
   }
+
+  static Future<Response<dynamic>> putData({
+    required String endPoint,
+    required Map<String, dynamic> data,
+    Map<String, dynamic>? query,
+    String lang = 'en',
+    String? token,
+  }) async {
+    _dio.options.headers = {
+      'lang': lang,
+      'Authorization': token,
+    };
+    return await _dio.put(endPoint, data: data, queryParameters: query);
+  }
+
 }

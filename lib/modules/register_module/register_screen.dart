@@ -1,43 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/cubit/login_cubit/login_states.dart';
-import 'package:shop_app/screens/shop_layout.dart';
-import 'package:shop_app/screens/signup_screen.dart';
+import '../login_module/login_cubit/login_states.dart';
+import '../login_module/login_screen.dart';
 import 'package:shop_app/shared/components.dart';
 import 'package:shop_app/shared/themes_and_decorations.dart';
-import 'package:shop_app/cubit/login_cubit/login_cubit.dart';
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
-import '../helpers/cache_helper.dart';
+import 'register_cubit/register_cubit.dart';
+import 'register_cubit/register_states.dart';
 
-class LoginScreen extends StatelessWidget {
-  final TextEditingController emailController = TextEditingController();
-  final TextEditingController passwordController = TextEditingController();
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => LoginCubit(),
-      child: BlocConsumer<LoginCubit, LoginState>(
+      create: (context) => RegisterCubit(),
+      child: BlocConsumer<RegisterCubit, LoginState>(
         listener: (context, state) {
-          if (state is LoginSuccessState) {
-            if (state.loginModel.status) {
-              CacheHelper.setToken(value: state.loginModel.data!.token).then(
-                (value) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => ShopLayout(),
-                    ),
-                  );
-                },
+          if (state is RegisterSuccessState) {
+            if (state.model!.status) {
+              // CacheHelper.setToken(value: state.model!.data!.token).then(
+              //   (value) {
+              //
+              //   },
+              // );
+              Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => LoginScreen(),
+                ),
               );
+              showToast(message: 'Successful registration');
             } else {
-              showToast(message: state.loginModel.message);
+              showToast(message: state.model!.message);
             }
           }
         },
         builder: (context, state) {
-          LoginCubit cubit = LoginCubit.get(context);
+          RegisterCubit cubit = RegisterCubit.get(context);
           final Size size = MediaQuery.of(context).size;
 
           return Scaffold(
@@ -54,36 +54,56 @@ class LoginScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            'LOGIN',
+                            'Register',
                             style: Theme.of(context).textTheme.headline3!,
                           ),
                           SizedBox(height: size.height / 65),
                           const Text(
-                            'Login to explore our deals',
+                            'Register to explore our deals',
                             style: TextStyle(
                                 fontWeight: FontWeight.bold,
                                 fontSize: 12,
                                 color: Colors.grey),
                           ),
                           SizedBox(height: size.height / 40),
+                          //name
+                          TextFormField(
+                            controller: cubit.nameController,
+                            decoration: decorationFormField.copyWith(
+                              label: const Text('name'),
+                              prefixIcon: const Icon(Icons.person_outlined),
+                            ),
+                            keyboardType: TextInputType.name,
+                            validator: cubit.validator,
+                          ),
+                          SizedBox(height: size.height / 50),
                           //email
                           TextFormField(
-                            controller: emailController,
+                            controller: cubit.emailController,
                             decoration: decorationFormField,
                             keyboardType: TextInputType.emailAddress,
                             validator: cubit.validator,
                           ),
-                          SizedBox(height: size.height / 30),
+                          SizedBox(height: size.height / 50),
+                          //phone
+                          TextFormField(
+                            controller: cubit.phoneController,
+                            decoration: decorationFormField.copyWith(
+                              label: const Text('phone'),
+                              prefixIcon: const Icon(Icons.phone_outlined),
+                            ),
+                            keyboardType: TextInputType.phone,
+                            validator: cubit.validator,
+                          ),
+                          SizedBox(height: size.height / 50),
                           //password
                           TextFormField(
                             onFieldSubmitted: (value) {
                               if (cubit.formKey.currentState!.validate()) {
-                                cubit.userLogin(
-                                    email: emailController.text,
-                                    password: passwordController.text);
+                                cubit.userRegister();
                               }
                             },
-                            controller: passwordController,
+                            controller: cubit.passwordController,
                             decoration: decorationFormField.copyWith(
                               label: const Text('password'),
                               prefixIcon: const Icon(Icons.lock_outline),
@@ -98,23 +118,21 @@ class LoginScreen extends StatelessWidget {
                             obscureText: cubit.passwordVisibility,
                             validator: cubit.validator,
                           ),
-                          SizedBox(height: size.height / 30),
+                          SizedBox(height: size.height / 50),
                           Center(
                             child: Column(
                               children: [
                                 ConditionalBuilder(
-                                  condition: state is! LoginLoadingState,
+                                  condition: state is! RegisterLoadingState,
                                   builder: (context) => TextButton(
                                     onPressed: () {
                                       //TODO regex to check email and password
                                       if (cubit.formKey.currentState!
                                           .validate()) {
-                                        cubit.userLogin(
-                                            email: emailController.text,
-                                            password: passwordController.text);
+                                        cubit.userRegister();
                                       }
                                     },
-                                    child: const Text('Sing In'),
+                                    child: const Text('Sing Up'),
                                     // style: ButtonStyle(
                                     //   backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
                                     //   // shape:
@@ -126,16 +144,16 @@ class LoginScreen extends StatelessWidget {
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    const Text('don\'t have an account yet?'),
+                                    const Text('Already have an account?'),
                                     TextButton(
                                       onPressed: () {
-                                        Navigator.push(
+                                        Navigator.pushReplacement(
                                             context,
                                             MaterialPageRoute(
                                                 builder: (context) =>
-                                                    SignUp()));
+                                                    LoginScreen()));
                                       },
-                                      child: const Text('Sing up'),
+                                      child: const Text('Log In'),
                                     ),
                                   ],
                                 )

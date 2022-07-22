@@ -6,10 +6,10 @@ import 'package:shop_app/helpers/dio_helper.dart';
 import 'package:shop_app/models/categories_model.dart';
 import 'package:shop_app/models/favorite_model.dart';
 import 'package:shop_app/models/home_model.dart';
-import 'package:shop_app/screens/favorite_screen.dart';
-import 'package:shop_app/screens/products_screen.dart';
-import 'package:shop_app/screens/categories_screen.dart';
-import 'package:shop_app/screens/seetings_module/settings_screen.dart';
+import 'package:shop_app/modules/favorite_screen.dart';
+import 'package:shop_app/modules/products_screen.dart';
+import 'package:shop_app/modules/categories_screen.dart';
+import 'package:shop_app/modules/settings_module/settings_screen.dart';
 import 'package:shop_app/shared/components.dart';
 import 'package:shop_app/shared/constants.dart';
 
@@ -85,7 +85,7 @@ class ShopCubit extends Cubit<ShopState> {
     }
     emit(ShopToggleFavoriteLoadingState());
 
-    DioHelper.postData(url: favorites,
+    DioHelper.postData(endPoint: favorites,
         token: CacheHelper.getData(key: token).toString(),
         data: {"product_id": id}).then((value) {
       if (!value.data['status']) {

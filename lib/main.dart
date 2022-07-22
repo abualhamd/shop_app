@@ -3,13 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/cubit/bloc_observer.dart';
 import 'package:shop_app/cubit/app_cubit/cubit.dart';
 import 'package:shop_app/cubit/app_cubit/states.dart';
-import 'package:shop_app/cubit/login_cubit/login_cubit.dart';
 import 'package:shop_app/cubit/shop_cubit/shop_cubit.dart';
 import 'package:shop_app/helpers/cache_helper.dart';
-import 'package:shop_app/screens/onboarding_screen.dart';
-import 'package:shop_app/screens/seetings_module/profile_cubit/cubit.dart';
-import 'package:shop_app/screens/shop_layout.dart';
-import 'screens/login_screen.dart';
+import 'package:shop_app/modules/onboarding_screen.dart';
+import 'package:shop_app/modules/shop_layout.dart';
+import 'modules/login_module/login_screen.dart';
+import 'modules/settings_module/profile_cubit/profile_cubit.dart';
 import 'shared/themes_and_decorations.dart';
 import 'shared/constants.dart';
 import 'helpers/dio_helper.dart';
@@ -59,7 +58,7 @@ class MyApp extends StatelessWidget {
             title: 'Flutter Demo',
             theme: themeLight,
             home: (CacheHelper.getData(key: onBoarding) == false)
-                ? (CacheHelper.getData(key: token) != null) //TODO .isEmpty
+                ? (CacheHelper.getData(key: token) != null)
                     ? ShopLayout()
                     : LoginScreen()
                 : const OnBoardingScreen(),

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../screens/login_screen.dart';
+import '../../modules/login_module/login_screen.dart';
 import 'states.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/models/boarding_model.dart';

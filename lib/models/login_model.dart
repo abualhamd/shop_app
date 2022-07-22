@@ -18,8 +18,8 @@ class UserData {
   late String email;
   late String phone;
   late String image;
-  late int points;
-  late int credit;
+  // late int points;
+  // late int credit;
   late String token;
 
   //named constructor
@@ -29,8 +29,8 @@ class UserData {
     email = json['email'];
     phone = json['phone'];
     image = json['image'];
-    points = json['points'];
-    credit = json['credit'];
+    // points = json['points'];
+    // credit = json['credit'];
     token = json['token'];
   }
 }

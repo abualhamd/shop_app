@@ -7,7 +7,7 @@ import 'package:shop_app/shared/constants.dart';
 import '../cubit/shop_cubit/shop_cubit.dart';
 import '../models/categories_model.dart';
 import '../models/home_model.dart';
-
+import '../modules/search_module/cubit/search_cubit.dart';
 
 //TODO turn the class into a function
 class BuildBoardingItem extends StatelessWidget {
@@ -56,7 +56,7 @@ class BuildBoardingItem extends StatelessWidget {
   }
 }
 
-void showToast({required message}) async {
+void showToast({required String message}) async {
   await Fluttertoast.showToast(
     msg: message,
     toastLength: Toast.LENGTH_LONG,
@@ -67,6 +67,7 @@ void showToast({required message}) async {
     fontSize: 16.0,
   );
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 Widget buildLayoutScreen({required bool condition, required Widget widget}) {
   return SafeArea(
@@ -333,7 +334,7 @@ Widget buildFavoriteItem({required int id, required BuildContext context}) {
 
   return Dismissible(
     key: Key(favoriteItem.id.toString()),
-    onDismissed: (direction){
+    onDismissed: (direction) {
       cubit.toggleFavorite(id: favoriteItem.id);
     },
     child: Container(
@@ -407,4 +408,140 @@ Widget buildFavoriteItem({required int id, required BuildContext context}) {
     ),
   );
 }
+////////////////////////////////////////////////////////////////////////////////
+// settings_screen components
 
+Widget blueButton({required onPressed, required String title}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10.0),
+    child: TextButton(
+      onPressed: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 18,
+          ),
+        ),
+      ),
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.blue),
+        shape: MaterialStateProperty.all<RoundedRectangleBorder>(
+          RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(10),
+            // side: BorderSide()
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+Widget myTextFormField(
+    {required TextEditingController controller,
+    required String label,
+    required IconData icon,
+    dynamic onSubmitted}) {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 10),
+    child: TextFormField(
+      controller: controller,
+      decoration: InputDecoration(
+        border: const OutlineInputBorder(),
+        label: Text(label),
+        prefixIcon: Icon(icon),
+      ),
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'field can\'t be empty';
+        }
+        return null;
+      },
+      onFieldSubmitted: (value){
+        onSubmitted;
+      },
+    ),
+  );
+}
+////////////////////////////////////////////////////////////////////////////////
+//search_screen components
+
+Widget buildSearchComponent(
+    {required int index, required BuildContext context}) {
+  SearchCubit cubit = SearchCubit.get(context);
+  ProductModel searchItem = cubit.searchModel!.products[index];
+
+  return Container(
+    padding: const EdgeInsets.all(15.0),
+    child: Row(
+      // crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        Stack(
+          alignment: Alignment.bottomLeft,
+          children: [
+            Image(
+              image: NetworkImage(searchItem.image),
+              height: 100,
+              width: 100,
+              fit: BoxFit.fill,
+            ),
+            //TODO resolve the discount and old price null error
+            // if (favoriteItem.discount > 0)
+            //   Container(
+            //     padding: const EdgeInsets.symmetric(horizontal: 5),
+            //     color: Colors.red,
+            //     child: const Text(
+            //       'Discount',
+            //       style: TextStyle(color: Colors.white),
+            //     ),
+            //   ),
+          ],
+        ),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0),
+            child: Column(
+              // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Text(
+                    searchItem.name,
+                    maxLines: 2,
+                    // softWrap: true,
+                    style: const TextStyle(overflow: TextOverflow.ellipsis),
+                  ),
+                ),
+                // const Spacer(),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  child: Row(
+                    children: [
+                      Text(
+                        searchItem.price.round().toString(),
+                        style: kProductPriceStyle,
+                      ),
+                      const SizedBox(width: 20),
+                      // if (searchItem.discount > 0)
+                      //   Text(
+                      //     searchItem.oldPrice.round().toString(),
+                      //     style: kProductOldPriceStyle,
+                      //   ),
+
+                      const Spacer(),
+                      myFavoriteWidget(model: searchItem, context: context)
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+        )
+      ],
+    ),
+  );
+}

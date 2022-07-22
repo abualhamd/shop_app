@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shop_app/cubit/shop_cubit/shop_cubit.dart';
+import 'package:shop_app/modules/search_module/search_screen.dart';
 
 import '../cubit/shop_cubit/shop_states.dart';
 
@@ -16,6 +17,17 @@ class ShopLayout extends StatelessWidget {
         ShopCubit cubit = ShopCubit.get(context);
         return SafeArea(
           child: Scaffold(
+            appBar: AppBar(
+              title: const Text('Abu-Alhamd Shop'),
+              actions: [
+                IconButton(
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => SearchScreen()));
+                  },
+                  icon: const Icon(Icons.search_outlined),
+                )
+              ],
+            ),
             body: cubit.bottomScreens[cubit.bottomScreensIndex],
             bottomNavigationBar: BottomNavigationBar(
               currentIndex: cubit.bottomScreensIndex,
