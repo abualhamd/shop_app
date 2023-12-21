@@ -3,7 +3,15 @@ import 'package:flutter/services.dart';
 import 'constants.dart';
 
 final ThemeData themeLight = ThemeData(
-  primarySwatch: kOrangeMaterialColor,
+  // fontFamily: 'smooch',
+  // primarySwatch: kOrangeMaterialColor,
+  textButtonTheme: TextButtonThemeData(
+    style: ButtonStyle(
+      textStyle: MaterialStateProperty.all<TextStyle>(
+        const TextStyle(color: Colors.redAccent, fontWeight: FontWeight.bold),
+      ),
+    ),
+  ),
   appBarTheme: const AppBarTheme(
     titleSpacing: kHorizontalPaddingValue,
     backgroundColor: Colors.white,
@@ -21,9 +29,9 @@ final ThemeData themeLight = ThemeData(
       statusBarIconBrightness: Brightness.light,
     ),
   ),
-  bottomNavigationBarTheme: BottomNavigationBarThemeData(
+  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
     type: BottomNavigationBarType.fixed,
-    selectedItemColor: kOrangeColor,
+    selectedItemColor: Colors.blue,
     elevation: 20.0,
   ),
 );
@@ -57,4 +65,12 @@ final ThemeData themeDark = ThemeData(
     bodyText1: TextStyle(color: Colors.white),
     bodyText2: TextStyle(color: Colors.white),
   ),
+);
+
+final InputDecoration decorationFormField = InputDecoration(
+  filled: true,
+  fillColor: Colors.grey[300],
+  border: InputBorder.none,
+  label: const Text('email'),
+  prefixIcon: const Icon(Icons.email_outlined),
 );
