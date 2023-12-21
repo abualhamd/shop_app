@@ -5,6 +5,8 @@ import 'shop_cubit/shop_cubit.dart';
 import 'shop_cubit/shop_states.dart';
 
 class ProductsScreen extends StatelessWidget {
+  const ProductsScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     //TODO add product details screen

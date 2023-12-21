@@ -14,7 +14,8 @@ class BuildBoardingItem extends StatelessWidget {
   final Size size;
   final int index;
 
-  const BuildBoardingItem({Key? key, required this.size, required this.index}) : super(key: key);
+  const BuildBoardingItem({Key? key, required this.size, required this.index})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -215,70 +216,79 @@ Widget builderCatItem({required String image, required String name}) =>
 
 Widget buildGridItem(
         {required ProductModel model, required BuildContext context}) =>
-    Stack(
-      alignment: Alignment.topLeft,
-      children: [
-        Container(
-          color: Colors.white,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(model.image),
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: Text(
-                    model.name,
-                    maxLines: 2,
-                    style: const TextStyle(
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                ),
-                Row(
-                  children: [
-                    Text(
-                      model.price.round().toString(),
-                      style: kProductPriceStyle,
-                    ),
-                    const SizedBox(
-                      width: 5,
-                    ),
-                    if (model.discount > 0)
-                      Text(
-                        model.oldPrice.round().toString(),
-                        style: kProductOldPriceStyle,
-                      ),
-                    const Spacer(),
-                    myFavoriteWidget(model: model, context: context),
-                  ],
-                ),
-              ],
-            ),
-          ),
+    // if (model.discount > 0)
+    Visibility(
+      visible: model.discount > 0,
+      replacement: GridImage(model:model),
+      child: ClipRect(
+        child: Banner(
+          message: 'Discount',
+          location: BannerLocation.topStart,
+          child: GridImage(model:model),
         ),
-        if (model.discount > 0)
-          Container(
-            color: Colors.red,
-            child: const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 5.0),
-              child: Text(
-                'Discount',
-                style: TextStyle(color: Colors.white),
+      ),
+    );
+
+class GridImage extends StatelessWidget {
+  const GridImage({
+    super.key,
+    required this.model
+  });
+
+  final ProductModel model;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(model.image),
+                  ),
+                ),
               ),
             ),
-          ),
-      ],
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 10.0),
+              child: Text(
+                model.name,
+                maxLines: 2,
+                style: const TextStyle(
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ),
+            Row(
+              children: [
+                Text(
+                  model.price.round().toString(),
+                  style: kProductPriceStyle,
+                ),
+                const SizedBox(
+                  width: 5,
+                ),
+                if (model.discount > 0)
+                  Text(
+                    model.oldPrice.round().toString(),
+                    style: kProductOldPriceStyle,
+                  ),
+                const Spacer(),
+                myFavoriteWidget(model: model, context: context),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
+  }
+}
 
 CircleAvatar myFavoriteWidget(
     {required ProductModel model, required BuildContext context}) {
@@ -462,7 +472,7 @@ Widget myTextFormField(
         }
         return null;
       },
-      onFieldSubmitted: (value){
+      onFieldSubmitted: (value) {
         onSubmitted;
       },
     ),
