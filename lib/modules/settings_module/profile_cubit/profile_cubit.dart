@@ -43,11 +43,7 @@ class ProfileCubit extends Cubit<ProfileState> {
 
   void logout(BuildContext context){
     CacheHelper.clearToken();
-    ShopCubit.get(context).bottomScreensIndex = 0;
-    Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-            builder: (context) => LoginScreen()));
+    
   }
 
   void profileUpdateP(){

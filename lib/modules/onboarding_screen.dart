@@ -23,10 +23,10 @@ class OnBoardingScreen extends StatelessWidget {
                 'Skip',
               ),
               onPressed: () {
-                CacheHelper.setBool(key: onBoarding, value: false).then((value) {
+                CacheHelper.setBool(key: onBoarding, value: false)
+                    .then((value) {
                   cubit.navigateToLoginScreen(context);
-                })
-                ;
+                });
               },
             ),
           ],
@@ -43,7 +43,7 @@ class OnBoardingScreen extends StatelessWidget {
             },
             controller: _pageController,
             physics: const BouncingScrollPhysics(),
-            itemBuilder: (context, index) => BuildBoardingItem(
+            itemBuilder: (context, index) => BoardingItem(
               size: size,
               index: index,
             ),

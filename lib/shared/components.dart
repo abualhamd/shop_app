@@ -10,11 +10,11 @@ import '../modules/search_module/cubit/search_cubit.dart';
 import '../modules/shop_module/shop_cubit/shop_cubit.dart';
 
 //TODO turn the class into a function
-class BuildBoardingItem extends StatelessWidget {
+class BoardingItem extends StatelessWidget {
   final Size size;
   final int index;
 
-  const BuildBoardingItem({Key? key, required this.size, required this.index})
+  const BoardingItem({Key? key, required this.size, required this.index})
       : super(key: key);
 
   @override
@@ -70,86 +70,7 @@ void showToast({required String message, Color color = Colors.red}) async {
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-Widget buildLayoutScreen({required bool condition, required Widget widget}) {
-  return SafeArea(
-    child: Scaffold(
-      body: ConditionalBuilder(
-        //TODO might need to change condition
-        condition: condition,
-        builder: (context) => widget,
-        fallback: (context) => const Center(child: CircularProgressIndicator()),
-      ),
-    ),
-  );
-}
-
-////////////////////////////////////////////////////////////////////////////////
 //products screen components
-
-//TODO change into a function
-class BuildProductsScreen extends StatelessWidget {
-  const BuildProductsScreen({Key? key}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    ShopCubit cubit = ShopCubit.get(context);
-    final Size size = MediaQuery.of(context).size;
-
-    return SingleChildScrollView(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          //slider images of banners
-          Container(
-            color: Colors.white,
-            height: size.height / 5,
-            width: double.infinity,
-            child: CarouselSlider(
-              items: cubit.homeModel!.data!.banners
-                  .map((e) => buildSliderItem(image: e.image))
-                  .toList(),
-              options: CarouselOptions(
-                viewportFraction: 1.0,
-                aspectRatio: 1 / 1.55,
-                autoPlay: true,
-              ),
-            ),
-          ),
-          buildTitle(title: 'Categories', size: size),
-          //categories
-          Container(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            height: 80,
-            width: double.infinity,
-            child: ListView.separated(
-              scrollDirection: Axis.horizontal,
-              itemCount: cubit.categoriesModel!.data.length,
-              itemBuilder: (context, index) => builderCatItem(
-                image: cubit.categoriesModel!.data[index].image,
-                name: cubit.categoriesModel!.data[index].name,
-              ),
-              separatorBuilder: (context, index) => SizedBox(
-                width: MediaQuery.of(context).size.height / 40,
-              ),
-            ),
-          ),
-          buildTitle(title: 'New Products', size: size),
-          GridView.count(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            crossAxisCount: 2,
-            childAspectRatio: 1 / 1.55,
-            mainAxisSpacing: 5,
-            crossAxisSpacing: 5,
-            children: cubit.homeModel!.data!.products
-                .map((e) => buildGridItem(model: e, context: context))
-                .toList(),
-          ),
-        ],
-      ),
-    );
-  }
-}
 
 Widget buildTitle({
   required String title,
@@ -219,21 +140,18 @@ Widget buildGridItem(
     // if (model.discount > 0)
     Visibility(
       visible: model.discount > 0,
-      replacement: GridImage(model:model),
+      replacement: GridImage(model: model),
       child: ClipRect(
         child: Banner(
           message: 'Discount',
           location: BannerLocation.topStart,
-          child: GridImage(model:model),
+          child: GridImage(model: model),
         ),
       ),
     );
 
 class GridImage extends StatelessWidget {
-  const GridImage({
-    super.key,
-    required this.model
-  });
+  const GridImage({super.key, required this.model});
 
   final ProductModel model;
 

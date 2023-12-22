@@ -18,32 +18,17 @@ class ShopCubit extends Cubit<ShopState> {
 
   static ShopCubit get(BuildContext context) => BlocProvider.of(context);
 
-  int bottomScreensIndex = 0;
-  List bottomScreens = [
-    ProductsScreen(),
-    const CategoriesScreen(),
-    const FavoriteScreen(),
-    const SettingsScreen(),
-  ];
   HomeModel? homeModel;
   CategoriesModel? categoriesModel;
   FavoriteModel? favoriteModel;
-
-  void changeBottomScreenIndex(int index) {
-    bottomScreensIndex = index;
-
-    emit(ShopChangeBottomScreenIndexState());
-  }
 
   void loadProducts() {
     emit(ShopProductsLoadingState());
     DioHelper.getData(
             endPoint: home, token: CacheHelper.getData(key: token).toString())
         .then((value) {
-      // print(value.data.toString());
       homeModel = HomeModel.fromJson(value.data);
 
-      // print(homeModel.data!.products.length);
 
       emit(ShopProductsSuccessState());
     }).catchError((error) {

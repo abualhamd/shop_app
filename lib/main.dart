@@ -1,35 +1,33 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shop_app/app_cubit/bloc_observer.dart';
-import 'package:shop_app/app_cubit/cubit.dart';
-import 'package:shop_app/app_cubit/states.dart';
-import 'package:shop_app/helpers/cache_helper.dart';
-import 'package:shop_app/modules/onboarding_screen.dart';
-import 'package:shop_app/modules/shop_module/shop_layout.dart';
+
+import 'app_cubit/bloc_observer.dart';
+import 'app_cubit/cubit.dart';
+import 'app_cubit/states.dart';
+import 'helpers/cache_helper.dart';
+import 'helpers/dio_helper.dart';
 import 'modules/login_module/login_screen.dart';
+import 'modules/onboarding_screen.dart';
 import 'modules/settings_module/profile_cubit/profile_cubit.dart';
 import 'modules/shop_module/shop_cubit/shop_cubit.dart';
-import 'shared/themes_and_decorations.dart';
+import 'modules/shop_module/shop_layout.dart';
+import 'shared/app_strings.dart';
 import 'shared/constants.dart';
-import 'helpers/dio_helper.dart';
+import 'shared/themes_and_decorations.dart';
 
-void main() {
-  BlocOverrides.runZoned(
-    () async {
-      WidgetsFlutterBinding.ensureInitialized();
+void main() async {
+  Bloc.observer = MyBlocObserver();
 
-      DioHelper.init();
-      await CacheHelper.init();
-      runApp(const MyApp());
-    },
-    blocObserver: MyBlocObserver(),
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+
+  DioHelper.init();
+  await CacheHelper.init();
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -55,7 +53,7 @@ class MyApp extends StatelessWidget {
         builder: (BuildContext context, AppState state) {
           return MaterialApp(
             debugShowCheckedModeBanner: false,
-            title: 'Flutter Demo',
+            title: AppStrings.appTitle,
             theme: themeLight,
             home: (CacheHelper.getData(key: onBoarding) == false)
                 ? (CacheHelper.getData(key: token) != null)

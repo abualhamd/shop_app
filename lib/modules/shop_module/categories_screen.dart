@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:shop_app/shared/components.dart';
+import '../../shared/components/layout_component.dart';
 import 'shop_cubit/shop_cubit.dart';
 import 'shop_cubit/shop_states.dart';
 
@@ -15,9 +16,9 @@ class CategoriesScreen extends StatelessWidget {
       builder: (context, state) {
         ShopCubit cubit = ShopCubit.get(context);
 
-        return buildLayoutScreen(
+        return LayoutComponent(
           condition: (cubit.categoriesModel != null),
-          widget: ListView.separated(
+          child: ListView.separated(
             itemBuilder: (context, index) =>
                 buildCategoryItem(cubit.categoriesModel!.data[index]),
             separatorBuilder: (context, index) => Container(

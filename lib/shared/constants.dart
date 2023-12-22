@@ -23,3 +23,7 @@ const String profile = 'profile';
 const String register = 'register';
 const String updateProfile = 'update-profile';
 const String search = 'products/search';
+
+final class AppConstants {
+  static const smoochFont = 'smooch';
+}
